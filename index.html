@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop &amp; Favorites — Gentle Sunday</title>
+  <meta name="description" content="Rather than an online shop, this page houses my favorite things, everyday workhorses, and where to find them." />
+  <script>
+    // Apply saved theme immediately to prevent flash of unstyled content
+    (function () {
+      const saved = localStorage.getItem("gs-theme");
+      if (saved === "dark" || saved === "light") {
+        document.documentElement.setAttribute("data-theme", saved);
+      }
+    })();
+  </script>
+  <style>
+    /* =========================================================
+       1. DESIGN TOKENS — Bearming Warm Editorial (Light & Dark)
+       ========================================================= */
+    :root {
+      color-scheme: light;
+
+      --width: 48rem;
+      --font-main: Georgia, "Hiragino Mincho ProN", "Yu Mincho", serif;
+      --font-secondary: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-scale: 1.12rem;
+
+      --background-color: #f7f4ec;
+      --heading-color: #292c27;
+      --text-color: #41433b;
+      --link-color: #963e30;
+      --visited-color: #76574d;
+      --code-background-color: #eeebe2;
+      --code-color: #65473a;
+      --blockquote-color: #636657;
+      --rule-color: #d9d5c9;
+      --muted-color: #747366;
+      --field-color: #fcfaf5;
+      --selection-background: #e8d3c5;
+      --selection-color: #292c27;
+
+      --line-height: 1.75;
+      --radius: 6px;
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --background-color: #252722;
+      --heading-color: #f0ece3;
+      --text-color: #d5d1c6;
+      --link-color: #d7a090;
+      --visited-color: #b99c90;
+      --code-background-color: #31342d;
+      --code-color: #e7bcab;
+      --blockquote-color: #b8b8a9;
+      --rule-color: #494a40;
+      --muted-color: #ada99b;
+      --field-color: #2d3029;
+      --selection-background: #65493e;
+      --selection-color: #fbf5eb;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) {
+        color-scheme: dark;
+        --background-color: #252722;
+        --heading-color: #f0ece3;
+        --text-color: #d5d1c6;
+        --link-color: #d7a090;
+        --visited-color: #b99c90;
+        --code-background-color: #31342d;
+        --code-color: #e7bcab;
+        --blockquote-color: #b8b8a9;
+        --rule-color: #494a40;
+        --muted-color: #ada99b;
+        --field-color: #2d3029;
+        --selection-background: #65493e;
+        --selection-color: #fbf5eb;
+      }
+    }
+
+    /* =========================================================
+       2. BASE & TYPOGRAPHY
+       ========================================================= */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--background-color);
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      max-width: var(--width);
+      margin: 0 auto;
+      padding: 58px 24px 28px;
+      background: var(--background-color);
+      color: var(--text-color);
+      font-family: var(--font-main);
+      font-size: var(--font-scale);
+      font-weight: 400;
+      line-height: var(--line-height);
+      text-align: left;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection {
+      background: var(--selection-background);
+      color: var(--selection-color);
+    }
+
+    a {
+      color: var(--link-color);
+      font-weight: 400;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+      transition: color 0.2s ease;
+    }
+
+    a:visited {
+      color: var(--visited-color);
+    }
+
+    a:hover {
+      color: var(--heading-color);
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible {
+      outline: 2px solid var(--link-color);
+      outline-offset: 4px;
+    }
+
+    h1, h2, h3 {
+      color: var(--heading-color);
+      font-family: var(--font-main);
+      font-weight: 400;
+      line-height: 1.25;
+      text-wrap: balance;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(30px, 5vw, 40px);
+      letter-spacing: -0.035em;
+    }
+
+    p {
+      margin: 0 0 18px;
+    }
+
+    /* =========================================================
+       3. HEADER & DESKTOP SIDEBAR (Exact Bearming Layout)
+       ========================================================= */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px 24px;
+      padding-bottom: 23px;
+      border-bottom: 1px solid var(--rule-color);
+    }
+
+    header a.title,
+    header a.title:visited {
+      color: var(--heading-color);
+      text-decoration: none;
+    }
+
+    header .title h1 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0;
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 1.4;
+      letter-spacing: -0.025em;
+    }
+
+    header .title h1::before {
+      content: "";
+      flex: 0 0 9px;
+      width: 9px;
+      height: 9px;
+      background: var(--link-color);
+      border-radius: 50%;
+    }
+
+    header nav {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-family: var(--font-secondary);
+      font-size: 14px;
+    }
+
+    header nav p {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin: 0;
+    }
+
+    header nav a,
+    header nav a:visited {
+      color: var(--muted-color);
+      font-weight: 400;
+      text-decoration: none;
+    }
+
+    header nav a:hover {
+      color: var(--link-color);
+      text-decoration: underline;
+    }
+
+    #theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-inline-start: 0;
+      padding: 5px 10px;
+      color: var(--muted-color);
+      background: transparent;
+      border: 1px solid var(--rule-color);
+      border-radius: 999px;
+      font-family: var(--font-secondary);
+      font-size: 11px;
+      line-height: 1;
+      cursor: pointer;
+      transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    #theme-toggle:hover {
+      color: var(--link-color);
+      border-color: var(--link-color);
+    }
+
+    main {
+      padding: 40px 0 16px;
+    }
+
+    @media (min-width: 1024px) {
+      body {
+        max-width: 1120px;
+        padding: 70px 34px 40px;
+        display: grid;
+        grid-template-columns: 235px minmax(0, 1fr);
+        column-gap: clamp(48px, 6vw, 88px);
+        align-items: start;
+        justify-content: center;
+      }
+
+      header {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        align-self: start;
+        position: sticky;
+        top: 64px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        gap: 0;
+        min-height: 290px;
+        padding: 5px 20px 25px 0;
+        border: 0;
+        border-right: 1px solid var(--rule-color);
+      }
+
+      header .title h1 {
+        gap: 11px;
+        font-size: 54px;
+        line-height: 1.06;
+        letter-spacing: -0.05em;
+        white-space: normal;
+        align-items: flex-start;
+      }
+
+      header .title h1::before {
+        margin-top: 22px;
+      }
+
+      header nav {
+        display: block;
+        width: 100%;
+        margin-top: 49px;
+      }
+
+      header nav::before {
+        content: "NAVIGATION";
+        display: block;
+        margin-bottom: 19px;
+        color: var(--muted-color);
+        font-size: 9px;
+        font-family: var(--font-secondary);
+        font-weight: 600;
+        line-height: 1.4;
+        letter-spacing: 0.16em;
+      }
+
+      header nav p {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 13px;
+        margin: 0;
+      }
+
+      header nav a,
+      header nav a:visited {
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      header nav #theme-toggle {
+        margin-top: 22px;
+      }
+
+      main {
+        grid-column: 2;
+        grid-row: 1;
+        min-width: 0;
+        max-width: var(--width);
+        padding: 0 0 16px;
+      }
+
+      footer {
+        grid-column: 2;
+        grid-row: 2;
+        min-width: 0;
+        max-width: var(--width);
+      }
+    }
+
+    /* =========================================================
+       4. CATALOG CONTROLS (Search & Category Filter Pills)
+       ========================================================= */
+    .intro-text {
+      color: var(--text-color);
+      margin-bottom: 26px;
+    }
+
+    .intro-note {
+      font-family: var(--font-secondary);
+      font-size: 12px;
+      color: var(--muted-color);
+      margin-top: -8px;
+      margin-bottom: 26px;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 28px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--rule-color);
+    }
+
+    .search-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 9px 36px 9px 12px;
+      border: 1px solid var(--rule-color);
+      border-radius: 0;
+      background: var(--field-color);
+      color: var(--text-color);
+      font-family: var(--font-secondary);
+      font-size: 14px;
+      transition: border-color 0.2s ease;
+    }
+
+    .search-input::placeholder {
+      color: var(--muted-color);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--link-color);
+    }
+
+    .clear-search {
+      position: absolute;
+      right: 10px;
+      background: none;
+      border: none;
+      color: var(--muted-color);
+      font-family: var(--font-secondary);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 2px 6px;
+      display: none;
+    }
+
+    .clear-search.visible {
+      display: inline-block;
+    }
+
+    .clear-search:hover {
+      color: var(--link-color);
+    }
+
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill-btn {
+      padding: 5px 12px;
+      background: transparent;
+      border: 1px solid var(--rule-color);
+      border-radius: 999px;
+      color: var(--muted-color);
+      font-family: var(--font-secondary);
+      font-size: 12px;
+      line-height: 1.3;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pill-btn:hover {
+      border-color: var(--link-color);
+      color: var(--link-color);
+    }
+
+    .pill-btn.active {
+      background: var(--code-background-color);
+      border-color: var(--link-color);
+      color: var(--heading-color);
+      font-weight: 500;
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-secondary);
+      font-size: 11px;
+      color: var(--muted-color);
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
+    }
+
+    /* =========================================================
+       5. ITEM LIST / EDITORIAL CARDS
+       ========================================================= */
+    .catalog-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .item-card {
+      padding: 18px 20px;
+      background: var(--code-background-color);
+      border: 1px solid var(--rule-color);
+      border-radius: var(--radius);
+      transition: border-color 0.2s ease;
+    }
+
+    .item-card:hover {
+      border-color: var(--link-color);
+    }
+
+    .item-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-family: var(--font-secondary);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted-color);
+    }
+
+    .item-title {
+      margin: 0 0 6px;
+      font-family: var(--font-main);
+      font-size: 1.08rem;
+      font-weight: 600;
+      color: var(--heading-color);
+      line-height: 1.35;
+    }
+
+    .item-why {
+      margin: 0 0 14px;
+      font-size: 0.94rem;
+      line-height: 1.65;
+      color: var(--text-color);
+    }
+
+    .item-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 16px;
+      padding-top: 10px;
+      border-top: 1px solid var(--rule-color);
+      font-family: var(--font-secondary);
+      font-size: 12.5px;
+    }
+
+    .item-links a {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+      color: var(--link-color);
+    }
+
+    .item-links a:visited {
+      color: var(--link-color);
+    }
+
+    .item-links a:hover {
+      color: var(--heading-color);
+    }
+
+    .item-links a.review-link {
+      margin-left: auto;
+      color: var(--muted-color);
+      text-decoration: none;
+    }
+
+    .item-links a.review-link:hover {
+      color: var(--link-color);
+      text-decoration: underline;
+    }
+
+    .state-message {
+      padding: 36px 20px;
+      text-align: center;
+      color: var(--muted-color);
+      font-family: var(--font-secondary);
+      font-size: 13px;
+      border: 1px dashed var(--rule-color);
+      border-radius: var(--radius);
+    }
+
+    .demo-banner {
+      margin-bottom: 20px;
+      padding: 10px 14px;
+      background: var(--code-background-color);
+      border-left: 2px solid var(--link-color);
+      font-family: var(--font-secondary);
+      font-size: 12px;
+      color: var(--blockquote-color);
+    }
+
+    /* =========================================================
+       6. FOOTER & MOBILE REFINEMENT
+       ========================================================= */
+    footer {
+      margin-top: 32px;
+      padding: 20px 0 8px;
+      border-top: 1px solid var(--rule-color);
+      color: var(--muted-color);
+      font-family: var(--font-secondary);
+      font-size: 12px;
+      text-align: left;
+    }
+
+    footer p {
+      margin: 0 0 0.5em;
+    }
+
+    footer a,
+    footer a:visited {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--link-color);
+    }
+
+    @media (max-width: 35rem) {
+      body {
+        padding: 30px 18px 24px;
+      }
+
+      main {
+        padding-top: 28px;
+      }
+
+      header {
+        gap: 14px;
+      }
+
+      header nav p {
+        gap: 12px;
+      }
+
+      .item-card {
+        padding: 15px 16px;
+      }
+
+      .item-links a.review-link {
+        margin-left: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      a,
+      .pill-btn,
+      .item-card,
+      #theme-toggle {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="title" href="https://gentlesunday.com">
+      <h1>Gentle Sunday</h1>
+    </a>
+    <nav>
+      <p>
+        <a href="https://gentlesunday.com">Home</a>
+        <a href="https://gentlesunday.com/blog/">Blog</a>
+        <a href="https://gentlesunday.com/now/">Now</a>
+        <a href="https://gentlesunday.com/about/">About</a>
+        <a href="https://gentlesunday.com/sub/">Subscribe</a>
+      </p>
+      <button id="theme-toggle" type="button" aria-label="Toggle color theme">Theme</button>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Shop &amp; Favorites</h1>
+    <p class="intro-text">
+      Rather than an online shop, this page houses my favorite things, everyday workhorses, and where to find them.
+    </p>
+    <p class="intro-note">
+      Some of these are affiliate links—thank you for supporting this little corner of the internet.
+    </p>
+
+    <div id="demo-banner" class="demo-banner" style="display: none;">
+      Mode pratinjau aktif. Tempel link CSV dari Google Sheets (<em>File &rarr; Share &rarr; Publish to web &rarr; CSV</em>) ke variabel <code>SHEET_CSV_URL</code> di dalam <code>index.html</code> untuk sinkronisasi otomatis.
+    </div>
+
+    <section class="controls" aria-label="Filter dan pencarian katalog">
+      <div class="search-wrap">
+        <input
+          type="search"
+          id="search-input"
+          class="search-input"
+          placeholder="Cari barang, merek, atau catatan (misal: parfum, oat, tas)..."
+          aria-label="Cari barang"
+        />
+        <button type="button" id="clear-search" class="clear-search" aria-label="Hapus pencarian">&times;</button>
+      </div>
+      <div id="filter-pills" class="filter-pills" role="group" aria-label="Filter kategori"></div>
+    </section>
+
+    <div class="status-bar">
+      <span id="item-count">Memuat daftar...</span>
+      <span id="active-category-label">Semua Kategori</span>
+    </div>
+
+    <ul id="catalog-list" class="catalog-list"></ul>
+  </main>
+
+  <footer>
+    <p>
+      <a href="https://gentlesunday.com">gentlesunday.com</a> &middot;
+      <a href="https://letterbird.co/gentlesunday">Email</a> &middot;
+      <a href="https://threads.net/@gentlesunday_com">Threads</a> &middot;
+      <a href="http://nihbuatjajan.com/gentlesunday">Nihbuatjajan</a>
+    </p>
+  </footer>
+
+  <script>
+    // =========================================================================
+    // KONFIGURASI GOOGLE SHEETS
+    // Ganti teks di bawah ini dengan link CSV hasil "Publish to web" dari Sheets:
+    // File -> Share -> Publish to web -> pilih sheet -> format CSV -> Publish
+    // =========================================================================
+    const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRiQtKTIraJA-6dihQxAlOUFQWZkxbx1_2WlSXmKGRnnhMQ2FalAvZeXbaCDX9SjcVjiTwElOfeQy39/pub?output=csv";
+
+    // Data bawaan untuk pratinjau sebelum SHEET_CSV_URL diisi
+    const FALLBACK_ITEMS = [
+      {
+        Item: "Laptop Backpack by Lanalini",
+        Kategori: "Bags & EDC",
+        Alasan: "Kompak, ringan, tali bahu tebal berbusa, aman buat punggung & laptop saat komuter.",
+        Shopee: "https://shope.ee/4ps7Qto86C",
+        Tokopedia: "https://tokopedia.link/HFa1Fl6rXHb",
+        Link_Lain: "",
+        Label_Link_Lain: "",
+        Ulasan_Blog: "https://gentlesunday.com/whats-in-my-everyday-bag-2024/",
+        Status: "Tampil"
+      },
+      {
+        Item: "Coach Mini Rowan (Signature Mahogany)",
+        Kategori: "Bags & EDC",
+        Alasan: "Tas kecil 17 cm yang muat esensial harian, bisa dipakai selempang atau tenteng.",
+        Shopee: "",
+        Tokopedia: "",
+        Link_Lain: "",
+        Label_Link_Lain: "",
+        Ulasan_Blog: "https://gentlesunday.com/coach-mini-rowan-review/",
+        Status: "Tampil"
+      },
+      {
+        Item: "Readyset — Koriko 1950",
+        Kategori: "Fragrance",
+        Alasan: "Aroma vanila ringan yang manis dan nyaman, nggak bikin enek.",
+        Shopee: "https://s.shopee.co.id/5L097Ta1GI",
+        Tokopedia: "",
+        Link_Lain: "",
+        Label_Link_Lain: "",
+        Ulasan_Blog: "https://gentlesunday.com/readyset-koriko-1950/",
+        Status: "Tampil"
+      },
+      {
+        Item: "Heimish All Clean Balm",
+        Kategori: "Skincare",
+        Alasan: "First cleanser lembut, bersih tanpa hassle, aman buat kulit kering.",
+        Shopee: "https://s.shopee.co.id/3Ar1UNA1nZ",
+        Tokopedia: "https://tokopedia.link/EobXBp5poPb",
+        Link_Lain: "",
+        Label_Link_Lain: "",
+        Ulasan_Blog: "https://gentlesunday.com/december-24-skincare-routine-dry-mature-skin/",
+        Status: "Tampil"
+      }
+    ];
+
+    // =========================================================================
+    // THEME TOGGLE (Selaras dengan Bearming)
+    // =========================================================================
+    const themeToggle = document.getElementById("theme-toggle");
+    function getEffectiveTheme() {
+      const explicit = document.documentElement.getAttribute("data-theme");
+      if (explicit) return explicit;
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+
+    function updateThemeButtonLabel() {
+      const current = getEffectiveTheme();
+      themeToggle.textContent = current === "dark" ? "☀ Light" : "☾ Dark";
+    }
+
+    themeToggle.addEventListener("click", () => {
+      const next = getEffectiveTheme() === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("gs-theme", next);
+      updateThemeButtonLabel();
+    });
+    updateThemeButtonLabel();
+
+    // =========================================================================
+    // RFC 4180 CSV PARSER (Aman untuk koma & tanda kutip di kolom Alasan)
+    // =========================================================================
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let current = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (inQuotes) {
+          if (char === '"' && next === '"') {
+            current += '"';
+            i++;
+          } else if (char === '"') {
+            inQuotes = false;
+          } else {
+            current += char;
+          }
+        } else {
+          if (char === '"') {
+            inQuotes = true;
+          } else if (char === ",") {
+            row.push(current.trim());
+            current = "";
+          } else if (char === "\r" && next === "\n") {
+            row.push(current.trim());
+            rows.push(row);
+            row = [];
+            current = "";
+            i++;
+          } else if (char === "\n" || char === "\r") {
+            row.push(current.trim());
+            rows.push(row);
+            row = [];
+            current = "";
+          } else {
+            current += char;
+          }
+        }
+      }
+      if (current.length > 0 || row.length > 0) {
+        row.push(current.trim());
+        rows.push(row);
+      }
+
+      if (rows.length < 2) return [];
+      const headers = rows[0].map((h) => h.replace(/^\uFEFF/, "").trim());
+      return rows.slice(1).map((cols) => {
+        const obj = {};
+        headers.forEach((h, idx) => {
+          obj[h] = cols[idx] || "";
+        });
+        return obj;
+      });
+    }
+
+    // =========================================================================
+    // STATE & RENDERING
+    // =========================================================================
+    let allItems = [];
+    let selectedCategory = "Semua";
+    let searchQuery = "";
+
+    const catalogListEl = document.getElementById("catalog-list");
+    const filterPillsEl = document.getElementById("filter-pills");
+    const searchInputEl = document.getElementById("search-input");
+    const clearSearchEl = document.getElementById("clear-search");
+    const itemCountEl = document.getElementById("item-count");
+    const activeCatLabelEl = document.getElementById("active-category-label");
+    const demoBannerEl = document.getElementById("demo-banner");
+
+    function normalizeBlogUrl(url) {
+      if (!url) return "";
+      if (url.startsWith("http://") || url.startsWith("https://")) return url;
+      const cleanPath = url.startsWith("/") ? url : "/" + url;
+      return "https://gentlesunday.com" + cleanPath;
+    }
+
+    function escapeHTML(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function renderCategories() {
+      const categories = ["Semua"];
+      allItems.forEach((item) => {
+        if (item.Kategori && !categories.includes(item.Kategori)) {
+          categories.push(item.Kategori);
+        }
+      });
+
+      filterPillsEl.innerHTML = "";
+      categories.forEach((cat) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "pill-btn" + (cat === selectedCategory ? " active" : "");
+        btn.textContent = cat;
+        btn.addEventListener("click", () => {
+          selectedCategory = cat;
+          renderCategories();
+          renderItems();
+        });
+        filterPillsEl.appendChild(btn);
+      });
+    }
+
+    function renderItems() {
+      const q = searchQuery.toLowerCase();
+      const filtered = allItems.filter((item) => {
+        const matchCat = selectedCategory === "Semua" || item.Kategori === selectedCategory;
+        const matchText =
+          !q ||
+          (item.Item && item.Item.toLowerCase().includes(q)) ||
+          (item.Alasan && item.Alasan.toLowerCase().includes(q)) ||
+          (item.Kategori && item.Kategori.toLowerCase().includes(q));
+        return matchCat && matchText;
+      });
+
+      itemCountEl.textContent = `${filtered.length} barang`;
+      activeCatLabelEl.textContent = selectedCategory === "Semua" ? "Semua Kategori" : selectedCategory;
+
+      if (filtered.length === 0) {
+        catalogListEl.innerHTML = `
+          <li class="state-message">
+            Tidak ada barang yang cocok dengan pencarianmu. Coba kata kunci lain atau pilih kategori "Semua".
+          </li>
+        `;
+        return;
+      }
+
+      catalogListEl.innerHTML = filtered
+        .map((item) => {
+          const links = [];
+          if (item.Shopee) {
+            links.push(`<a href="${escapeHTML(item.Shopee)}" target="_blank" rel="noopener noreferrer">Shopee &#8599;</a>`);
+          }
+          if (item.Tokopedia) {
+            links.push(`<a href="${escapeHTML(item.Tokopedia)}" target="_blank" rel="noopener noreferrer">Tokopedia &#8599;</a>`);
+          }
+          if (item.Link_Lain) {
+            const label = item.Label_Link_Lain || "Link";
+            links.push(`<a href="${escapeHTML(item.Link_Lain)}" target="_blank" rel="noopener noreferrer">${escapeHTML(label)} &#8599;</a>`);
+          }
+          if (item.Ulasan_Blog) {
+            const blogUrl = normalizeBlogUrl(item.Ulasan_Blog);
+            links.push(`<a class="review-link" href="${escapeHTML(blogUrl)}" target="_blank" rel="noopener noreferrer">Baca ulasan &rarr;</a>`);
+          }
+
+          return `
+            <li class="item-card">
+              <div class="item-meta">
+                <span>${escapeHTML(item.Kategori || "Umum")}</span>
+              </div>
+              <h2 class="item-title">${escapeHTML(item.Item)}</h2>
+              ${item.Alasan ? `<p class="item-why">${escapeHTML(item.Alasan)}</p>` : ""}
+              ${links.length ? `<div class="item-links">${links.join("")}</div>` : ""}
+            </li>
+          `;
+        })
+        .join("");
+    }
+
+    searchInputEl.addEventListener("input", (e) => {
+      searchQuery = e.target.value.trim();
+      clearSearchEl.classList.toggle("visible", searchQuery.length > 0);
+      renderItems();
+    });
+
+    clearSearchEl.addEventListener("click", () => {
+      searchInputEl.value = "";
+      searchQuery = "";
+      clearSearchEl.classList.remove("visible");
+      searchInputEl.focus();
+      renderItems();
+    });
+
+    async function initCatalog() {
+      const isConfigured = SHEET_CSV_URL && !SHEET_CSV_URL.includes("PASTE_YOUR_GOOGLE_SHEETS_CSV_URL_HERE");
+      if (!isConfigured) {
+        demoBannerEl.style.display = "block";
+        allItems = FALLBACK_ITEMS;
+        renderCategories();
+        renderItems();
+        return;
+      }
+
+      try {
+        const res = await fetch(SHEET_CSV_URL, { cache: "no-store" });
+        if (!res.ok) throw new Error("Gagal mengambil CSV");
+        const csvText = await res.text();
+        const parsed = parseCSV(csvText);
+
+        allItems = parsed.filter((row) => {
+          if (!row.Item) return false;
+          const status = (row.Status || "Tampil").toLowerCase();
+          return status !== "arsip" && status !== "draft" && status !== "hide";
+        });
+
+        renderCategories();
+        renderItems();
+      } catch (err) {
+        catalogListEl.innerHTML = `
+          <li class="state-message">
+            Gagal memuat katalog dari Google Sheets. Pastikan spreadsheet sudah diatur ke <em>File &rarr; Share &rarr; Publish to web &rarr; CSV</em>.
+          </li>
+        `;
+        itemCountEl.textContent = "0 barang";
+      }
+    }
+
+    initCatalog();
+  </script>
+</body>
+</html>
