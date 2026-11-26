@@ -1,0 +1,616 @@
+/* =========================================================
+1. DESIGN TOKENS — Bearming Warm Editorial (Light & Dark)
+   ========================================================= */
+:root {
+  color-scheme: light;
+
+  --width: 48rem;
+  --font-main: Georgia, "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-secondary: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-scale: 1.12rem;
+
+  --background-color: #f7f4ec;
+  --heading-color: #292c27;
+  --text-color: #41433b;
+  --link-color: #963e30;
+  --visited-color: #76574d;
+  --code-background-color: #eeebe2;
+  --code-color: #65473a;
+  --blockquote-color: #636657;
+  --rule-color: #d9d5c9;
+  --muted-color: #747366;
+  --field-color: #fcfaf5;
+  --selection-background: #e8d3c5;
+  --selection-color: #292c27;
+
+  --line-height: 1.75;
+  --radius: 6px;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background-color: #252722;
+  --heading-color: #f0ece3;
+  --text-color: #d5d1c6;
+  --link-color: #d7a090;
+  --visited-color: #b99c90;
+  --code-background-color: #31342d;
+  --code-color: #e7bcab;
+  --blockquote-color: #b8b8a9;
+  --rule-color: #494a40;
+  --muted-color: #ada99b;
+  --field-color: #2d3029;
+  --selection-background: #65493e;
+  --selection-color: #fbf5eb;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --background-color: #252722;
+    --heading-color: #f0ece3;
+    --text-color: #d5d1c6;
+    --link-color: #d7a090;
+    --visited-color: #b99c90;
+    --code-background-color: #31342d;
+    --code-color: #e7bcab;
+    --blockquote-color: #b8b8a9;
+    --rule-color: #494a40;
+    --muted-color: #ada99b;
+    --field-color: #2d3029;
+    --selection-background: #65493e;
+    --selection-color: #fbf5eb;
+  }
+}
+
+/* =========================================================
+2. BASE & TYPOGRAPHY
+   ========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background-color);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  max-width: var(--width);
+  margin: 0 auto;
+  padding: 58px 24px 28px;
+  background: var(--background-color);
+  color: var(--text-color);
+  font-family: var(--font-main);
+  font-size: var(--font-scale);
+  font-weight: 400;
+  line-height: var(--line-height);
+  text-align: left;
+  overflow-wrap: break-word;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--selection-background);
+  color: var(--selection-color);
+}
+
+a {
+  color: var(--link-color);
+  font-weight: 400;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease;
+}
+
+a:visited {
+  color: var(--visited-color);
+}
+
+a:hover {
+  color: var(--heading-color);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--link-color);
+  outline-offset: 4px;
+}
+
+h1, h2, h3 {
+  color: var(--heading-color);
+  font-family: var(--font-main);
+  font-weight: 400;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+h1 {
+  margin: 0 0 14px;
+  font-size: clamp(30px, 5vw, 40px);
+  letter-spacing: -0.035em;
+}
+
+p {
+  margin: 0 0 18px;
+}
+
+/* =========================================================
+3. HEADER & DESKTOP SIDEBAR (Exact Bearming Layout)
+   ========================================================= */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  padding-bottom: 23px;
+  border-bottom: 1px solid var(--rule-color);
+}
+
+header a.title,
+header a.title:visited {
+  color: var(--heading-color);
+  text-decoration: none;
+}
+
+header .title h1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.025em;
+}
+
+header .title h1::before {
+  content: "";
+  flex: 0 0 9px;
+  width: 9px;
+  height: 9px;
+  background: var(--link-color);
+  border-radius: 50%;
+}
+
+header nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-family: var(--font-secondary);
+  font-size: 14px;
+}
+
+header nav p {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin: 0;
+}
+
+header nav a,
+header nav a:visited {
+  color: var(--muted-color);
+  font-weight: 400;
+  text-decoration: none;
+}
+
+header nav a:hover {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+#theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-inline-start: 0;
+  padding: 5px 10px;
+  color: var(--muted-color);
+  background: transparent;
+  border: 1px solid var(--rule-color);
+  border-radius: 999px;
+  font-family: var(--font-secondary);
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+#theme-toggle:hover {
+  color: var(--link-color);
+  border-color: var(--link-color);
+}
+
+main {
+  padding: 40px 0 16px;
+}
+
+@media (min-width: 1024px) {
+  body {
+    max-width: 1120px;
+    padding: 70px 34px 40px;
+    display: grid;
+    grid-template-columns: 235px minmax(0, 1fr);
+    column-gap: clamp(48px, 6vw, 88px);
+    align-items: start;
+    justify-content: center;
+  }
+
+  header {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: start;
+    position: sticky;
+    top: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 0;
+    min-height: 290px;
+    padding: 5px 20px 25px 0;
+    border: 0;
+    border-right: 1px solid var(--rule-color);
+  }
+
+  header .title h1 {
+    gap: 11px;
+    font-size: 54px;
+    line-height: 1.06;
+    letter-spacing: -0.05em;
+    white-space: normal;
+    align-items: flex-start;
+  }
+
+  header .title h1::before {
+    margin-top: 22px;
+  }
+
+  header nav {
+    display: block;
+    width: 100%;
+    margin-top: 49px;
+  }
+
+  header nav::before {
+    content: "NAVIGATION";
+    display: block;
+    margin-bottom: 19px;
+    color: var(--muted-color);
+    font-size: 9px;
+    font-family: var(--font-secondary);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.16em;
+  }
+
+  header nav p {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 13px;
+    margin: 0;
+  }
+
+  header nav a,
+  header nav a:visited {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  header nav #theme-toggle {
+    margin-top: 22px;
+  }
+
+  main {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    max-width: var(--width);
+    padding: 0 0 16px;
+  }
+
+  footer {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+    max-width: var(--width);
+  }
+}
+
+/* =========================================================
+4. CATALOG CONTROLS (Search & Category Filter Pills)
+   ========================================================= */
+.intro-text {
+  color: var(--text-color);
+  margin-bottom: 26px;
+}
+
+.intro-note {
+  font-family: var(--font-secondary);
+  font-size: 12px;
+  color: var(--muted-color);
+  margin-top: -8px;
+  margin-bottom: 26px;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--rule-color);
+}
+
+.search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 100%;
+  padding: 9px 36px 9px 12px;
+  border: 1px solid var(--rule-color);
+  border-radius: 0;
+  background: var(--field-color);
+  color: var(--text-color);
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+.search-input::placeholder {
+  color: var(--muted-color);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--link-color);
+}
+
+.clear-search {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--muted-color);
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 2px 6px;
+  display: none;
+}
+
+.clear-search.visible {
+  display: inline-block;
+}
+
+.clear-search:hover {
+  color: var(--link-color);
+}
+
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill-btn {
+  padding: 5px 12px;
+  background: transparent;
+  border: 1px solid var(--rule-color);
+  border-radius: 999px;
+  color: var(--muted-color);
+  font-family: var(--font-secondary);
+  font-size: 12px;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pill-btn:hover {
+  border-color: var(--link-color);
+  color: var(--link-color);
+}
+
+.pill-btn.active {
+  background: var(--code-background-color);
+  border-color: var(--link-color);
+  color: var(--heading-color);
+  font-weight: 500;
+}
+
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-secondary);
+  font-size: 11px;
+  color: var(--muted-color);
+  margin-bottom: 16px;
+  letter-spacing: 0.02em;
+}
+
+/* =========================================================
+5. ITEM LIST / EDITORIAL CARDS
+   ========================================================= */
+.catalog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item-card {
+  padding: 18px 20px;
+  background: var(--code-background-color);
+  border: 1px solid var(--rule-color);
+  border-radius: var(--radius);
+  transition: border-color 0.2s ease;
+}
+
+.item-card:hover {
+  border-color: var(--link-color);
+}
+
+.item-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-family: var(--font-secondary);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted-color);
+}
+
+.item-title {
+  margin: 0 0 6px;
+  font-family: var(--font-main);
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: var(--heading-color);
+  line-height: 1.35;
+}
+
+.item-why {
+  margin: 0 0 14px;
+  font-size: 0.94rem;
+  line-height: 1.65;
+  color: var(--text-color);
+}
+
+.item-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule-color);
+  font-family: var(--font-secondary);
+  font-size: 12.5px;
+}
+
+.item-links a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  color: var(--link-color);
+}
+
+.item-links a:visited {
+  color: var(--link-color);
+}
+
+.item-links a:hover {
+  color: var(--heading-color);
+}
+
+.item-links a.review-link {
+  margin-left: auto;
+  color: var(--muted-color);
+  text-decoration: none;
+}
+
+.item-links a.review-link:hover {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+.state-message {
+  padding: 36px 20px;
+  text-align: center;
+  color: var(--muted-color);
+  font-family: var(--font-secondary);
+  font-size: 13px;
+  border: 1px dashed var(--rule-color);
+  border-radius: var(--radius);
+}
+
+.demo-banner {
+  margin-bottom: 20px;
+  padding: 10px 14px;
+  background: var(--code-background-color);
+  border-left: 2px solid var(--link-color);
+  font-family: var(--font-secondary);
+  font-size: 12px;
+  color: var(--blockquote-color);
+}
+
+/* =========================================================
+6. FOOTER & MOBILE REFINEMENT
+   ========================================================= */
+footer {
+  margin-top: 32px;
+  padding: 20px 0 8px;
+  border-top: 1px solid var(--rule-color);
+  color: var(--muted-color);
+  font-family: var(--font-secondary);
+  font-size: 12px;
+  text-align: left;
+}
+
+footer p {
+  margin: 0 0 0.5em;
+}
+
+footer a,
+footer a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--link-color);
+}
+
+@media (max-width: 35rem) {
+  body {
+    padding: 30px 18px 24px;
+  }
+
+  main {
+    padding-top: 28px;
+  }
+
+  header {
+    gap: 14px;
+  }
+
+  header nav p {
+    gap: 12px;
+  }
+
+  .item-card {
+    padding: 15px 16px;
+  }
+
+  .item-links a.review-link {
+    margin-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a,
+  .pill-btn,
+  .item-card,
+  #theme-toggle {
+    transition: none;
+  }
+}
